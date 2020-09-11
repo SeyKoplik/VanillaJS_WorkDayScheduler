@@ -20,7 +20,7 @@
     <p id="currentDay" class="lead"></p>
   </header>
 
-  <div class="container-fluid">
+  <div class="container-fluid" style="width: 800px">
     <!-- Timeblocks go here -->
 
     <div class="row">
@@ -75,60 +75,51 @@
 
   <script type="text/javascript">
   $(document).ready(function () {
+        // used moment.js to grab the current date and time
         var time = moment().format('dddd, MMMM Do YYYY');
+        //displayed current date and time on page in p ID "currentDay".
         $("#currentDay").text(time);
-        var timeNow = moment().hours();
+        //declared what the time is now by the hour
+        var getThis = JSON.parse(localStorage.getItem('getThis')) || [];
+
         $(".hour").each(function () {
-          var diffTimes = $(this).attr("id");
-          if (timeNow == diffTimes) {
-            $("input").attr("background-color", "#ff6961");
-          }
-          if (timeNow > diffTimes) {
+          var diffTimes = parseInt($(this).attr("id"));
+          var timeNow = parseInt(moment().hours());
+
+        //if timeblock is beyond the time now, it should be the past
+          if (diffTimes < timeNow ) {
             $("input").css("background-color", "#d3d3d3");
           }
-          if (timeNow < diffTimes) {
+        //if timeblock over the time now, it is the future
+          if (diffTimes > timeNow) {
             $("input").css("background-color", "#77dd77");
           }
+        //if time block is equal to time now then it should be red
+          if (diffTimes === timeNow) {
+            $("input").css("background-color", "#ff6961");
+          }
+        
         });
-
+        // when the page loads lets retrieve in localstorage and pop in any box saved
+        $("input").each(function () {
+          var timeAgain = $(this).prev().attr("id");
+          for (var i=0; i < getThis.length; i++){
+            if (timeAgain === getThis[i].time) {
+              $(this).val(getThis[i].note)
+            }
+          }
+        });
       //when the save button is clicked........
       $(".saveBtn").on("click", function() {
-        console.log("saved it");
-        //made a variable to call on the input box
-        var addToCalendar = $(this).val();
-        //shows as nothing right now and no error
-        // console.log(addToCalendar); //<-returned blank
-        //made a function for EACH input box occurence
-          $("input").each(function(data){
-        //initial data to save but empty
-          var saveThis = [];
-        //converting to save to localstorage
-          localStorage.setItem('saveThis', JSON.stringify(addToCalendar));
-        //sending data to localstorage....??
-          saveThis.push(addToCalendar);
-          console.log(saveThis);
-          });
-      //made ANOTHER function for displaying at refresh
-          $("input").each(function(data){
-        //grabbing that box with input...
-          var boxDisplay = $(this).val();
-        //to see if box display shows up the text in input box.....
-          console.log(boxDisplay);
-        //running this function
-          displayTypedData();
-
-        //built function for that^ to run
-          function displayTypedData (){
-        //setting variable to retrieve data...
-            var getThis = JSON.parse(localStorage.getItem('saveThis')) || [];
-            console.log(getThis);
-        //creating a new div and placing localstorage data
-            //****** MAJOR PROBLEM ****
-            var newBox = $('<div>'+ getThis +'</div>');
-        //replacing the input box with the new div box with saved info from localstorage
-            $("input").append(newBox);
-            };
-          }); 
+        //make a variable to call on the input box
+        var addToCalendar = $(this).prev().val();
+        //created variable to grab time by ID of area with input box that has info
+        var time = $(this).prev().prev().attr("id");
+        //used that time to create object to push to localstorage along with message to create array
+        getThis.push({ time:time, note:addToCalendar});
+        console.log(getThis);
+        //took that object getThis and saved a string version into local storage
+        localStorage.setItem('getThis', JSON.stringify(getThis));
 
         }); 
     });  
