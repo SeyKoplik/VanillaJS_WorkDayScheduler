@@ -96,29 +96,43 @@
       }
       });
 
+      //when the save button is clicked........
       $(".saveBtn").on("click", function() {
         console.log("saved it");
-
-        $("input").each(function(data){
+        //made a variable to call on the input box
         var addToCalendar = $(this).val();
+        //shows as nothing right now and no error
         console.log(addToCalendar);
         
+        //made a function for EACH input box occurence
+        $("input").each(function(data){
+        //initial data to save but empty
         var saveThis = [];
-        
+        //converting to save to localstorage
         localStorage.setItem('saveThis', JSON.stringify(addToCalendar));
-
-        saveThis.push(data);
-
-        var getThis = JSON.parse(localStorage.getItem('saveThis')) || [];
-        
-        getThis.append(addToCalendar);
-
-
-        
-       
+        //sending data to localstorage....??
+        saveThis.push(addToCalendar);
       });
-    });
-  });  
+
+      //made ANOTHER function for displaying at refresh
+      $("input").each(function(data){
+        //grabbing that box with input...
+        var boxDisplay = $(this).val();
+        //running this function
+        displayTypedData();
+        //built function
+        function displayTypedData (){
+        //setting variable to retrieve data...
+        var getThis = JSON.parse(localStorage.getItem('saveThis')) || [];
+        //creating a new div and placing localstorage data
+        var newBox = $('<p class="col-sm-8>'+ getThis +'</p>');
+        //replacing the input box with the new div box with saved info from localstorage
+        $("input").replaceWith(newBox);
+        };
+
+      }); 
+     }); 
+   });  
   </script>
 </body>
 
