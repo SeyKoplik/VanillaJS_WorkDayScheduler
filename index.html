@@ -59,12 +59,12 @@
       <button class="saveBtn col-sm-2"><i class="fas fa-lock"></i></button>
     </div>
     <div class="row">
-      <form class="hour col-sm-2" id="16">4pm</form>
+      <div class="hour col-sm-2" id="16">4pm</div>
       <input class="col-sm-8">
       <button class="saveBtn col-sm-2"><i class="fas fa-lock"></i></button>
     </div>
     <div class="row">
-      <form class="hour col-sm-2" id="17">5pm</form>
+      <div class="hour col-sm-2" id="17">5pm</div>
       <input class="test col-sm-8">
       <button class="saveBtn col-sm-2"><i class="fas fa-lock"></i></button>
     </div>
@@ -74,27 +74,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
   <script type="text/javascript">
-    $(document).ready(function () {
-      var time = moment().format('dddd, MMMM Do YYYY');
-      $("#currentDay").text(time);
-
-      var timeNow = moment().hours();
-
-      $(".hour").each(function(){
-      var diffTimes = $(this).attr("id");
-      //present
-      if (timeNow == diffTimes) {
-        $("input").attr("background-color", "#ff6961");
-      }
-      //past
-      if (timeNow < diffTimes) {
-        $("input").css("background-color", "#d3d3d3");
-      }
-      //future
-      if (timeNow > diffTimes) {
-        $("input").css("background-color", "#77dd77");
-      }
-      });
+      $(document).ready(function () {
+        var time = moment().format('dddd, MMMM Do YYYY');
+        $("#currentDay").text(time);
+        var timeNow = moment().hours();
+        $(".hour").each(function () {
+          var diffTimes = $(this).attr("id");
+          if (timeNow == diffTimes) {
+            $("input").attr("background-color", "#ff6961");
+          }
+          if (timeNow > diffTimes) {
+            $("input").css("background-color", "#d3d3d3");
+          }
+          if (timeNow < diffTimes) {
+            $("input").css("background-color", "#77dd77");
+          }
+        });
 
       //when the save button is clicked........
       $(".saveBtn").on("click", function() {
@@ -102,7 +97,7 @@
         //made a variable to call on the input box
         var addToCalendar = $(this).val();
         //shows as nothing right now and no error
-        console.log(addToCalendar);
+        // console.log(addToCalendar);
         
         //made a function for EACH input box occurence
         $("input").each(function(data){
@@ -112,25 +107,31 @@
         localStorage.setItem('saveThis', JSON.stringify(addToCalendar));
         //sending data to localstorage....??
         saveThis.push(addToCalendar);
+        console.log(saveThis);
       });
 
       //made ANOTHER function for displaying at refresh
       $("input").each(function(data){
         //grabbing that box with input...
         var boxDisplay = $(this).val();
+        //to see if box display shows up the text in input box.....
+        console.log(boxDisplay);
         //running this function
         displayTypedData();
-        //built function
+
+        //built function for that^ to run
         function displayTypedData (){
         //setting variable to retrieve data...
         var getThis = JSON.parse(localStorage.getItem('saveThis')) || [];
+        console.log(getThis);
         //creating a new div and placing localstorage data
-        var newBox = $('<p class="col-sm-8>'+ getThis +'</p>');
+            //****** MAJOR PROBLEM ****
+        var newBox = $('<div>'+ getThis +'</div>');
         //replacing the input box with the new div box with saved info from localstorage
-        $("input").replaceWith(newBox);
+        $("input").append(newBox);
         };
-
       }); 
+     
      }); 
    });  
   </script>
