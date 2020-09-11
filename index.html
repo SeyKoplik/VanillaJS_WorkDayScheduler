@@ -65,7 +65,7 @@
     </div>
     <div class="row">
       <form class="hour col-sm-2" id="17">5pm</form>
-      <input class="col-sm-8">
+      <input class="test col-sm-8">
       <button class="saveBtn col-sm-2"><i class="fas fa-lock"></i></button>
     </div>
   </div>
@@ -79,10 +79,7 @@
       $("#currentDay").text(time);
 
       var timeNow = moment().hours();
-      // //HELP ME
-      // var diffTimes = 13//!!!!!!!!! LOCATION OF ALL IDs WITH TIMEBLOCKS
 
-      // console.log($(this).val("#id"));
       $(".hour").each(function(){
       var diffTimes = $(this).attr("id");
       //present
@@ -98,21 +95,20 @@
         $("input").css("background-color", "#77dd77");
       }
       });
-
+      var saveThis = [];
       $(".saveBtn").on("click", function() {
         console.log("saved it");
 
-        $(".row").each(function(){
-          console.log($(this))
-        var addToCalendar = $(this).attr("input");
-        })
-        localStorage.setItem('saveThis', JSON.stringify(addToCalendar));
+        $("input").each(function(){
+        var addToCalendar = $(this).val();
+        console.log(addToCalendar);
+        window.localStorage.setItem('saveThis', JSON.stringify(addToCalendar));
         saveThis.push(addToCalendar);
-        var postData = localStorage.geItem('saveThis');
+        var postData = JSON.parse(localStorage.getItem('saveThis'));
         addToCalendar.append(postData);
       });
-
-    });  
+    });
+  });  
   </script>
 </body>
 
