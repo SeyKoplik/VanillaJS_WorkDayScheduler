@@ -84,9 +84,7 @@
 
       // console.log($(this).val("#id"));
       $(".hour").each(function(){
-
       var diffTimes = $(this).attr("id");
-      
       //present
       if (timeNow == diffTimes) {
         $("input").attr("background-color", "#ff6961");
@@ -99,16 +97,19 @@
       if (timeNow > diffTimes) {
         $("input").css("background-color", "#77dd77");
       }
-
       });
 
       $(".saveBtn").on("click", function() {
         console.log("saved it");
 
-
-
-
-      
+        $(".row").each(function(){
+          console.log($(this))
+        var addToCalendar = $(this).attr("input");
+        })
+        localStorage.setItem('saveThis', JSON.stringify(addToCalendar));
+        saveThis.push(addToCalendar);
+        var postData = localStorage.geItem('saveThis');
+        addToCalendar.append(postData);
       });
 
     });  
