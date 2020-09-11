@@ -26,7 +26,7 @@ Explore in chrome browser the Work Day Scheduler to observe and allocate tasks t
 ## Links
 momentjs.com
 
-
+https://seykoplik.github.io/WorkDayScheduler/
 
 
 
