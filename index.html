@@ -74,7 +74,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
   <script type="text/javascript">
-      $(document).ready(function () {
+  $(document).ready(function () {
         var time = moment().format('dddd, MMMM Do YYYY');
         $("#currentDay").text(time);
         var timeNow = moment().hours();
@@ -97,43 +97,41 @@
         //made a variable to call on the input box
         var addToCalendar = $(this).val();
         //shows as nothing right now and no error
-        // console.log(addToCalendar);
-        
+        // console.log(addToCalendar); //<-returned blank
         //made a function for EACH input box occurence
-        $("input").each(function(data){
+          $("input").each(function(data){
         //initial data to save but empty
-        var saveThis = [];
+          var saveThis = [];
         //converting to save to localstorage
-        localStorage.setItem('saveThis', JSON.stringify(addToCalendar));
+          localStorage.setItem('saveThis', JSON.stringify(addToCalendar));
         //sending data to localstorage....??
-        saveThis.push(addToCalendar);
-        console.log(saveThis);
-      });
-
+          saveThis.push(addToCalendar);
+          console.log(saveThis);
+          });
       //made ANOTHER function for displaying at refresh
-      $("input").each(function(data){
+          $("input").each(function(data){
         //grabbing that box with input...
-        var boxDisplay = $(this).val();
+          var boxDisplay = $(this).val();
         //to see if box display shows up the text in input box.....
-        console.log(boxDisplay);
+          console.log(boxDisplay);
         //running this function
-        displayTypedData();
+          displayTypedData();
 
         //built function for that^ to run
-        function displayTypedData (){
+          function displayTypedData (){
         //setting variable to retrieve data...
-        var getThis = JSON.parse(localStorage.getItem('saveThis')) || [];
-        console.log(getThis);
+            var getThis = JSON.parse(localStorage.getItem('saveThis')) || [];
+            console.log(getThis);
         //creating a new div and placing localstorage data
             //****** MAJOR PROBLEM ****
-        var newBox = $('<div>'+ getThis +'</div>');
+            var newBox = $('<div>'+ getThis +'</div>');
         //replacing the input box with the new div box with saved info from localstorage
-        $("input").append(newBox);
-        };
-      }); 
-     
-     }); 
-   });  
+            $("input").append(newBox);
+            };
+          }); 
+
+        }); 
+    });  
   </script>
 </body>
 
