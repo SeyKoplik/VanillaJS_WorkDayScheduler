@@ -83,22 +83,26 @@
         var getThis = JSON.parse(localStorage.getItem('getThis')) || [];
 
         $(".hour").each(function () {
-          var diffTimes = parseInt($(this).attr("id"));
-          var timeNow = parseInt(moment().hours());
-
+        var diffTimes = parseInt($(this).attr("id"));
+        var timeNow = parseInt(moment().hours());
         //if timeblock is beyond the time now, it should be the past
           if (diffTimes < timeNow ) {
-            $("input").css("background-color", "#d3d3d3");
+            var newBox = $("input");
+            newBox.addClass("past col-sm-8");
+            $("input").replaceWith(newBox);
           }
         //if timeblock over the time now, it is the future
           if (diffTimes > timeNow) {
-            $("input").css("background-color", "#77dd77");
+            var newBox2 = $("input");
+            newBox2.addClass("future col-sm-8");
+            $("input").replaceWith(newBox2);
           }
         //if time block is equal to time now then it should be red
           if (diffTimes === timeNow) {
-            $("input").css("background-color", "#ff6961");
+            var newBox3 = $("input");
+            newBox3.addClass("present col-sm-8");
+            $("input").replaceWith(newBox3);
           }
-        
         });
         // when the page loads lets retrieve in localstorage and pop in any box saved
         $("input").each(function () {
@@ -117,7 +121,6 @@
         var time = $(this).prev().prev().attr("id");
         //used that time to create object to push to localstorage along with message to create array
         getThis.push({ time:time, note:addToCalendar});
-        console.log(getThis);
         //took that object getThis and saved a string version into local storage
         localStorage.setItem('getThis', JSON.stringify(getThis));
 
