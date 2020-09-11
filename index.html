@@ -79,29 +79,23 @@
         var time = moment().format('dddd, MMMM Do YYYY');
         //displayed current date and time on page in p ID "currentDay".
         $("#currentDay").text(time);
-        //declared what the time is now by the hour
+        //setting up localstorage to store info added on calendar time blocks
         var getThis = JSON.parse(localStorage.getItem('getThis')) || [];
-
+        //pulling each hour block to compare to current time to change color of timeblock to reflect the time of day future, past, or present.
         $(".hour").each(function () {
         var diffTimes = parseInt($(this).attr("id"));
         var timeNow = parseInt(moment().hours());
         //if timeblock is beyond the time now, it should be the past
           if (diffTimes < timeNow ) {
-            var newBox = $("input");
-            newBox.addClass("past col-sm-8");
-            $("input").replaceWith(newBox);
+            $(this).siblings().addClass("past");
           }
         //if timeblock over the time now, it is the future
           if (diffTimes > timeNow) {
-            var newBox2 = $("input");
-            newBox2.addClass("future col-sm-8");
-            $("input").replaceWith(newBox2);
+            $(this).siblings().addClass("future")
           }
         //if time block is equal to time now then it should be red
           if (diffTimes === timeNow) {
-            var newBox3 = $("input");
-            newBox3.addClass("present col-sm-8");
-            $("input").replaceWith(newBox3);
+            $(this).siblings().addClass("present")
           }
         });
         // when the page loads lets retrieve in localstorage and pop in any box saved
