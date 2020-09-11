@@ -95,17 +95,27 @@
         $("input").css("background-color", "#77dd77");
       }
       });
-      var saveThis = [];
+
       $(".saveBtn").on("click", function() {
         console.log("saved it");
 
-        $("input").each(function(){
+        $("input").each(function(data){
         var addToCalendar = $(this).val();
         console.log(addToCalendar);
-        window.localStorage.setItem('saveThis', JSON.stringify(addToCalendar));
-        saveThis.push(addToCalendar);
-        var postData = JSON.parse(localStorage.getItem('saveThis'));
-        addToCalendar.append(postData);
+        
+        var saveThis = [];
+        
+        localStorage.setItem('saveThis', JSON.stringify(addToCalendar));
+
+        saveThis.push(data);
+
+        var getThis = JSON.parse(localStorage.getItem('saveThis')) || [];
+        
+        getThis.append(addToCalendar);
+
+
+        
+       
       });
     });
   });  
